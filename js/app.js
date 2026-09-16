@@ -568,6 +568,7 @@ function buildResultsScoring() {
     ['Jam', state.jam],
   ]);
 
+  html += '<div class="result-sections">';
   sections.forEach(sec => {
     html += `<div class="result-section">
       <div class="result-section-header"><span class="result-section-title">${esc(sec.section)}</span></div>
@@ -583,6 +584,7 @@ function buildResultsScoring() {
     });
     html += `</div></div>`;
   });
+  html += '</div>';
   document.getElementById('result-body').innerHTML = html;
 
   state.resultData = { type: 'scoring', jenis: state.jenisSelected, sections, pctDisplay, kategori, kasirLabel };
@@ -647,6 +649,7 @@ function buildResultsChecklist() {
     ['Area', labelJoined],
   ]);
 
+  html += '<div class="result-sections">';
   areaResults.forEach(ar => {
     html += `<div class="result-area-block">
       <div class="result-area-header"><span class="result-area-title">${esc(ar.label)}</span></div>
@@ -664,6 +667,7 @@ function buildResultsChecklist() {
     });
     html += `</div></div></div>`;
   });
+  html += '</div>';
   document.getElementById('result-body').innerHTML = html;
 
   state.resultData = {
