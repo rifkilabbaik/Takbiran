@@ -1,12 +1,16 @@
 // Service worker Takbiran.
 // Naikkan CACHE_VERSION setiap kali aset di PRECACHE berubah.
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `takbiran-${CACHE_VERSION}`;
 
 const PRECACHE = [
   './',
   './index.html',
   './manifest.json',
+  './css/app.css',
+  './js/data.js',
+  './js/app.js',
+  './js/export.js',
 ];
 
 self.addEventListener('install', event => {
