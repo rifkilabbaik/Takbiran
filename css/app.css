@@ -19,20 +19,19 @@
   --radius-sm: 10px;
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
 
-  /* Skala yang menyesuaikan lebar layar. */
-  --app-max: 480px;
+  /* Aplikasi memakai seluruh lebar layar; hanya jarak tepi yang menyesuaikan. */
   --gutter: 20px;
   --fs-body: 15px;
 }
 
 @media (min-width: 768px) {
-  :root { --app-max: 720px; --gutter: 28px; --fs-body: 16px; }
+  :root { --gutter: 32px; --fs-body: 16px; }
 }
 @media (min-width: 1024px) {
-  :root { --app-max: 960px; --gutter: 36px; }
+  :root { --gutter: 40px; }
 }
 @media (min-width: 1440px) {
-  :root { --app-max: 1120px; }
+  :root { --gutter: 56px; }
 }
 
 html { -webkit-text-size-adjust: 100%; }
@@ -40,23 +39,20 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: var(--fs-body);
-  background: var(--bg);
+  background: var(--surface);
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
-  justify-content: center;
   align-items: stretch;
 }
 
 #app {
   width: 100%;
-  max-width: var(--app-max);
   min-height: 100vh;
   min-height: 100dvh;
   background: var(--surface);
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
 }
 
 /* ===== SCREENS ===== */
@@ -159,12 +155,13 @@ body {
   border-top: 1px solid var(--border);
   background: var(--surface);
   display: flex;
+  justify-content: center;
   gap: 10px;
   position: sticky;
   bottom: 0;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
-.page-footer .btn { flex: 1; }
+.page-footer .btn { flex: 1 1 0; max-width: 280px; }
 
 /* ===== CARDS ===== */
 .section-cards { display: grid; grid-template-columns: 1fr; gap: 12px; }
@@ -174,6 +171,9 @@ body {
 }
 @media (min-width: 1024px) {
   .section-cards { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1600px) {
+  .section-cards { grid-template-columns: repeat(4, 1fr); }
 }
 
 .card {
@@ -212,7 +212,7 @@ body {
 .card.selected .card-check svg { opacity: 1; }
 
 /* ===== FORM ===== */
-.form-grid { display: grid; grid-template-columns: 1fr; gap: 0 20px; }
+.form-grid { display: grid; grid-template-columns: 1fr; gap: 0 20px; max-width: 900px; }
 @media (min-width: 768px) {
   .form-grid { grid-template-columns: repeat(2, 1fr); }
   .form-grid .form-group-wide { grid-column: 1 / -1; }
@@ -288,6 +288,12 @@ body {
 .item-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
 @media (min-width: 1024px) {
   .item-grid { grid-template-columns: repeat(2, 1fr); gap: 0 16px; }
+}
+@media (min-width: 1440px) {
+  .item-grid { grid-template-columns: repeat(3, 1fr); gap: 0 20px; }
+}
+@media (min-width: 1920px) {
+  .item-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
 .score-item {
@@ -436,6 +442,12 @@ body {
 .result-subtitle { font-size: 13px; opacity: 0.85; margin-top: 6px; font-weight: 500; }
 .result-body { padding: 20px var(--gutter); }
 
+/* Di layar lebar, daftar hasil mengalir beberapa kolom agar barisnya tetap terbaca. */
+.result-sections { column-gap: 20px; }
+@media (min-width: 1280px) { .result-sections { columns: 2; } }
+@media (min-width: 1920px) { .result-sections { columns: 3; } }
+.result-section, .result-area-block { break-inside: avoid; -webkit-column-break-inside: avoid; }
+
 .result-section { margin-bottom: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
 .result-section-header { padding: 12px 14px; background: #f9fafb; border-bottom: 1px solid var(--border); }
 .result-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text); }
@@ -463,7 +475,7 @@ body {
 }
 .result-area-title { font-size: 14px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
 
-.result-summary { background: var(--primary-light); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 16px; }
+.result-summary { max-width: 900px; background: var(--primary-light); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 16px; }
 .result-summary-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; font-size: 13px; }
 .result-summary-key { color: var(--text-muted); font-weight: 500; }
 .result-summary-val { color: var(--text); font-weight: 600; text-align: right; word-break: break-word; }
@@ -482,7 +494,8 @@ body {
 
 .result-footer-btns {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 240px));
+  justify-content: center;
   gap: 8px;
   padding: 16px var(--gutter);
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
